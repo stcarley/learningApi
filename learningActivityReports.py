@@ -4,15 +4,17 @@ import json
 import time
 
 
-numberOfResults = 100
-
 #converting current time from seconds since epoch to milliseconds since epoch
 currentTime = int(time.time() * 1000)
 
+# QUERY PARAMETERS #
+numberOfResults = 100
 offsetUnit = "DAY"
 offsetDuration = 14
 #startedAt is milliseconds since epoch, adjusted based upon the offset duration
-startedAt = currentTime - (86400000 * offsetDuration)
+startedAt = currentTime - (86400000 * offsetDuration)  #86400000 is number of milliseconds in a day
+
+
 
 bearerToken = "Bearer "+token
 url = "https://api.linkedin.com/v2/learningActivityReports"
