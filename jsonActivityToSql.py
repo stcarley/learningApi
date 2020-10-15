@@ -87,6 +87,17 @@ def add_userCourses(connection, profileUrn, courseUrn, firstEngaged, lastEngaged
     except Error as e:
         print(e)
 
+def getCourseList(connection):
+    sql_get_courses = """ SELECT courseUrn FROM courses WHERE duration IS NULL; """
+    try: 
+        c = connection.cursor()
+        c.execute(sql_get_courses)
+        courseUrns = c.fetchall()
+        return courseUrns
+    except Error as e:
+        print(e)
+
+
 def process_json(connection, data):
     for element in data['elements']:
         email = element['learnerDetails']['email']
@@ -105,6 +116,7 @@ def process_json(connection, data):
             add_userCourses(connection, profileUrn, courseUrn, firstEngaged, lastEngaged, secondsViewed, progressPercentage)
         else:
             print("Error! no connection")
+        
 
 
 
