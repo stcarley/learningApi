@@ -1,7 +1,7 @@
 import requests
 import json
 import csv
-from oAuth import token
+from getToken import access_token as token
 
 #----------------------------
 # API Call

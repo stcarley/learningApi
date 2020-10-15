@@ -1,7 +1,7 @@
-from oAuth import token
+from getToken import access_token
 import requests
 
-bearerToken = "Bearer "+token
+bearerToken = "Bearer "+access_token
 url = "https://api.linkedin.com/v2/learningAssets"
 querystring = {"q":"criteria","assetFilteringCriteria.assetTypes[0]":"COURSE","assetFilteringCriteria.licensedOnly":"true","count":"100"}
 headers = {

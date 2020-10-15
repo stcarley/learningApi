@@ -1,1 +1,7 @@
 /credentials.py
+/accessToken.py
+/jsonReportsOutput.json
+/jsonCourseOutput.json
+/data.db
+/Courses_CSV.csv
+/calldatabase.sql

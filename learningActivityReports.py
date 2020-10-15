@@ -1,4 +1,5 @@
-from oAuth import token
+# from oAuth import token
+from getToken import token
 import requests
 import json
 import time
@@ -7,17 +8,19 @@ import time
 # converting current time from seconds since epoch to milliseconds since epoch
 currentTime = int(time.time() * 1000)
 
+
+
 # QUERY PARAMETERS #
-numberOfResults = 10
+numberOfResults = 3
 offsetUnit = "DAY"
-offsetDuration = 14     # aximum offset is 14 days, larger calls will return 500 error
+offsetDuration = 1     # maximum offset is 14 days, larger calls will return 500 error
 
 # startedAt is milliseconds since epoch, adjusted based upon the offset duration
 startedAt = currentTime - (86400000 * offsetDuration)       # 86400000 is number of milliseconds in a day
 
 # filtering by group
-scopeFilterType = "enterpriseScopeFilters[0].groupUrn"
-scopeFilter = "urn:li:enterpriseGroup:(urn:li:enterpriseAccount:2108938,3157260)"
+#scopeFilterType = "enterpriseScopeFilters[0].groupUrn"
+#scopeFilter = "urn:li:enterpriseGroup:(urn:li:enterpriseAccount:2108938,3157260)"
 
 # filtering by profile ****NOT CURRENTLY SUPPORTED****
 # scopeFilterType = "enterpriseScopeFilters[0].profileUrn"
@@ -44,7 +47,7 @@ querystring = {"q":"criteria",
                "aggregationCriteria.secondary":"CONTENT",
                #"sortBy.engagementMetricType":"COMPLETIONS",
                "locale.language":"en",
-               scopeFilterType:scopeFilter,
+               #scopeFilterType:scopeFilter,
                "contentSource":contentSource,
                "assetType":"COURSE"
                }
@@ -62,3 +65,10 @@ response = requests.request("GET", url, headers=headers, params=querystring)
 
 jsonResponse = json.loads(response.text)
 print(json.dumps(jsonResponse, indent=4, sort_keys=True))
+
+output = json.dumps(jsonResponse, indent=4, sort_keys=True)
+
+# --- save a sample local file to work with ---
+# f = open("jsonReportsOutput.json", "w")
+# f.write(output)
+# f.close()
