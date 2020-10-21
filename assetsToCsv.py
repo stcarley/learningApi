@@ -8,7 +8,7 @@ from getToken import access_token as token
 # Input - accesstoken and url
 # Output - Return data in JSON
 #----------------------------
-def APIcall(token, url):
+def api_call(token, url):
 
     # Make POST Headers
     headers = {
@@ -24,7 +24,7 @@ def APIcall(token, url):
 #----------------------------
 # Open CSV and write header
 #----------------------------
-def makeCSV(token, coursePaginationURL):
+def make_csv(token, coursePaginationURL):
 
     Rows = []
 
@@ -41,7 +41,7 @@ def makeCSV(token, coursePaginationURL):
         writer.writeheader()
 
         # Get API data
-        Rows = getRows(token, coursePaginationURL, Rows)
+        Rows = get_rows(token, coursePaginationURL, Rows)
 
         for row in Rows:
             print(row)
@@ -50,8 +50,8 @@ def makeCSV(token, coursePaginationURL):
 #----------------------------
 # Get a rows data from an API element
 #----------------------------
-def getRows(token, coursePaginationURL, Rows):
-    data = APIcall(token, coursePaginationURL)
+def get_rows(token, coursePaginationURL, Rows):
+    data = api_call(token, coursePaginationURL)
 
     #prettyprint(data)
 
@@ -108,11 +108,11 @@ def getRows(token, coursePaginationURL, Rows):
         print("debug is on printing one row")
 
     elif data['paging']['links'][0]['rel'] == 'next':
-        getRows(token, 'https://api.linkedin.com/' + data['paging']['links'][0]['href'], Rows)
+        get_rows(token, 'https://api.linkedin.com/' + data['paging']['links'][0]['href'], Rows)
 
     elif len(data['paging']['links']) > 1:
         if data['paging']['links'][1]['rel'] == 'next':
-            getRows(token, 'https://api.linkedin.com/' + data['paging']['links'][1]['href'], Rows)
+            get_rows(token, 'https://api.linkedin.com/' + data['paging']['links'][1]['href'], Rows)
 
 
     return Rows
@@ -132,7 +132,7 @@ def prettyprint(data):
 #classificationURL = "https://api.linkedin.com/v2/learningClassifications?q=localeAndType&type=LIBRARY&sourceLocale.language=en&sourceLocale.country=US&start=0&count=1"
 coursePaginationURL = "https://api.linkedin.com/v2/learningAssets?q=localeAndType&assetType=COURSE&sourceLocale.language=en&sourceLocale.country=US&expandDepth=1&includeRetired=false&start=0"
 
-makeCSV(token, coursePaginationURL)
+make_csv(token, coursePaginationURL)
 
 
 

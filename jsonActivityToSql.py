@@ -34,7 +34,7 @@ def add_users(connection, profileUrn, name, email, uniqueUserId):
         c = connection.cursor()
         c.execute(sql_insert_user_data)
         connection.commit()
-        print("user {} added".format(profileUrn))
+        # print("user {} added".format(profileUrn))
     except Error as e:
         print(e)
 
@@ -52,14 +52,13 @@ def add_courses(connection, courseUrn, courseName):
         c = connection.cursor()
         c.execute(sql_insert_course_data)
         connection.commit()
-        print("course {} added".format(courseUrn))
+        # print("course {} added".format(courseUrn))
     except Error as e:
         print(e)
 
 def add_userCourses(connection, profileUrn, courseUrn, firstEngaged, lastEngaged, secondsViewed, progressPercentage):
     userCourse = profileUrn + '-' + courseUrn
-    print(userCourse)
-    type(userCourse)
+    # print(userCourse)
     sql_insert_userCourse_data = """ INSERT OR REPLACE INTO userCourses (
                                     userCourse,
                                     courseUrn,
@@ -78,16 +77,16 @@ def add_userCourses(connection, profileUrn, courseUrn, firstEngaged, lastEngaged
                                     '{secondsViewed}',
                                     '{progressPercentage}'
                                 ); """.format(userCourse=userCourse, courseUrn=courseUrn, profileUrn=profileUrn, firstEngaged=firstEngaged, lastEngaged=lastEngaged, secondsViewed=secondsViewed, progressPercentage=progressPercentage)
-    print(sql_insert_userCourse_data)
+    # print(sql_insert_userCourse_data)
     try: 
         c = connection.cursor()
         c.execute(sql_insert_userCourse_data)
         connection.commit()
-        print("userCourse {} added".format(userCourse))
+        # print("userCourse {} added".format(userCourse))
     except Error as e:
         print(e)
 
-def getCourseList(connection):
+def get_course_list(connection):
     sql_get_courses = """ SELECT courseUrn FROM courses WHERE duration IS NULL; """
     try: 
         c = connection.cursor()

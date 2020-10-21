@@ -3,7 +3,7 @@ import json
 import sqlite3
 from sqlite3 import Error
 from getToken import access_token as token
-from jsonActivityToSql import getCourseList, create_connection
+from jsonActivityToSql import get_course_list, create_connection
 
 #----------------------------
 # API Call
@@ -13,13 +13,13 @@ from jsonActivityToSql import getCourseList, create_connection
 
 courseUrn = 'urn:li:lyndaCourse:724791'
 
-def courseUrl(courseUrn):
-    courseUrl = 'https://api.linkedin.com/v2/learningAssets/{URN}'.format(URN = courseUrn)
+def course_url(courseUrn):
+    courseUrl = 'https://api.linkedin.com/v2/learningAssets/{URN}?includeRetired=true'.format(URN = courseUrn)
     print(courseUrl)
     return courseUrl
 
 
-def APIcall(token, url):
+def api_call(token, url):
 
     # Make POST Headers
     headers = {
@@ -28,7 +28,7 @@ def APIcall(token, url):
 
     returnData = requests.get(url, headers=headers)
     # print("Here is the request URL" + url)
-    # print("Here is the request URL" + returnData.text)
+    # print("Here is the request response" + returnData.text)
     return json.loads(returnData.text)
 
 def add_course_details(connection, courseUrn, courseName, duration, published, updated, locale):
@@ -48,7 +48,7 @@ def add_course_details(connection, courseUrn, courseName, duration, published, u
                                     '{updated}',
                                     '{locale}'
                                 ) ; """.format(courseUrn=courseUrn, courseName=courseName, duration=duration, published=published, updated=updated, locale=locale)
-    print(sql_insert_course_details)
+    # print(sql_insert_course_details)
     try: 
         c = connection.cursor()
         c.execute(sql_insert_course_details)
@@ -72,16 +72,16 @@ def update_course_details():
     database = 'data.db'
     connection = create_connection(database)
     if connection is not None:
-        courseUrns = getCourseList(connection)
+        courseUrns = get_course_list(connection)
         for row in courseUrns:
-            data = APIcall(token, courseUrl(row[0]))
+            data = api_call(token, course_url(row[0]))
             process_course_details(connection, data)
     else:
         print("Error! cannot create the database connection.")
 
 update_course_details()
 
-# courseData = APIcall(token, courseUrl(courseUrn))
+# courseData = api_call(token, courseUrl(courseUrn))
 
 # print(json.dumps(courseData, indent=4, sort_keys=True))
 
